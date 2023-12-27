@@ -18,7 +18,9 @@ spec:
         - name: ngx-conf-vol
           configMap:
             name: ngx-conf
-
+        - name: host-pvc-vol
+          persistentVolumeClaim:
+            claimName: host-20m-pvc # 与你创建的 PVC 的名称匹配
       containers:
         - image: nginx:alpine
           name: nginx
@@ -26,5 +28,7 @@ spec:
             - containerPort: 80
 
           volumeMounts:
-            - mountPath: /etc/nginx/conf.d
-              name: ngx-conf-vol
+            - name: ngx-conf-vol
+              mountPath: /etc/nginx/conf.d
+            - name: host-pvc-vol
+              mountPath: /tmp
