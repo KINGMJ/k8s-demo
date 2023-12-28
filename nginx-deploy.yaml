@@ -4,7 +4,7 @@ metadata:
   name: ngx-dep
 
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       app: ngx-dep
@@ -22,7 +22,7 @@ spec:
           persistentVolumeClaim:
             claimName: host-20m-pvc # 与你创建的 PVC 的名称匹配
       containers:
-        - image: nginx:alpine
+        - image: nginx:1.21-alpine
           name: nginx
           ports:
             - containerPort: 80
