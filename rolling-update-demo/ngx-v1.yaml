@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ngx-dep
+  namespace: rolling-update-demo
+
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: ngx-dep
+
+  template:
+    metadata:
+      labels:
+        app: ngx-dep
+    spec:
+      volumes:
+        - name: ngx-conf-vol
+          configMap:
+            name: ngx-conf
+
+      containers:
+        - image: nginx:1.21-alpine
+          name: nginx
+          ports:
+            - containerPort: 80
+
+          volumeMounts:
+            - name: ngx-conf-vol
+              mountPath: /etc/nginx/conf.d

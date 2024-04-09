@@ -2,8 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ngx-dep
+  namespace: rolling-update-demo
 
 spec:
+  minReadySeconds: 20 # 确认Pod就绪的等待时间
   replicas: 4
   selector:
     matchLabels:
@@ -18,11 +20,9 @@ spec:
         - name: ngx-conf-vol
           configMap:
             name: ngx-conf
-        - name: host-pvc-vol
-          persistentVolumeClaim:
-            claimName: host-20m-pvc # 与你创建的 PVC 的名称匹配
+
       containers:
-        - image: nginx:1.21-alpine
+        - image: nginx:1.22-alpine222222
           name: nginx
           ports:
             - containerPort: 80
@@ -30,5 +30,3 @@ spec:
           volumeMounts:
             - name: ngx-conf-vol
               mountPath: /etc/nginx/conf.d
-            - name: host-pvc-vol
-              mountPath: /tmp
