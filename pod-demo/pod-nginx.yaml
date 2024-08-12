@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------
+# 一个简单的 nginx pod 示例，包括端口、卷的使用
+#
+# kubectl port-forward pod/nginx-pod -n demo-ns 8089:80
+# 将nginx的80端口映射到宿主机的8089端口，将宿主机的ngnix文件夹映射到容器的/usr/share/nginx/html目录
+# 我们在 nginx 文件夹中放入一个html文件，访问：http://localhost:8089/go%20%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99.html
+
+# ---------------------------------------------------------------
+
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: nginx-pod
+  namespace: demo-ns
+  labels:
+    app: nginx
+
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx:latest
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "250m"
+
+      volumeMounts:
+        - name: nginx-vol
+          mountPath: /usr/share/nginx/html
+
+  volumes:
+    - name: nginx-vol
+      hostPath:
+        path: /Users/jerrymei/MyCode/k8s-demo/pod-demo/nginx
+        type: DirectoryOrCreate
+
+  restartPolicy: Never

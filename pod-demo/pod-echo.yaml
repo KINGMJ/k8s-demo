@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------
+# 一个简单的 pod 示例，执行打印命令
+#
+# kubectl logs busy-pod -n demo-ns
+# ubuntu, on
+# ---------------------------------------------------------------
+
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: busy-pod
+  namespace: demo-ns
+  labels:
+    owner: jerrymei
+    env: dev
+
+spec:
+  containers:
+    - name: busy
+      image: busybox:latest
+      imagePullPolicy: IfNotPresent
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "250m"
+
+      env:
+        - name: os
+          value: "ubuntu"
+        - name: debug
+          value: "on"
+
+      command:
+        - /bin/echo
+      args:
+        - "$(os), $(debug)"
