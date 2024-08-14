@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------
+# 一个简单的临时离线任务示例
+# ---------------------------------------------------------------
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: echo-job
+  namespace: demo-ns
+
+spec:
+  template:
+    spec:
+      containers:
+        - name: echo-job
+          image: busybox:latest
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/echo"]
+          args: ["hello", "world"]
+
+      restartPolicy: OnFailure

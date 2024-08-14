@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------
+# 模拟job的各种参数设置
+# ---------------------------------------------------------------
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sleep-job
+  namespace: demo-ns
+
+spec:
+  activeDeadlineSeconds: 5 # job超时时间，5s没完成，会终止job
+  backoffLimit: 4 # 失败重试次数
+  completions: 4 # job完成次数
+  parallelism: 2
+
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - image: busybox
+          name: echo-job
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - sleep $(($RANDOM % 10 + 1)) && echo job done...
