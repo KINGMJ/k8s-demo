@@ -33,5 +33,5 @@ spec:
       volumes:
         - name: script-volume
           hostPath:
-            path: /Users/jerrymei/MyCode/k8s-demo/2job-demo/bin
+            path: /Users/jerrymei/MyCode/k8s-demo/2-job-demo/bin
             type: File

@@ -1,0 +1,35 @@
+# ---------------------------------------------------------------
+# cronjob 定时输出配置文件中的内容
+# ---------------------------------------------------------------
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: echo-cj
+  namespace: demo-ns
+
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: echo-cronjob
+              image: busybox
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: COUNT
+                  valueFrom:
+                    configMapKeyRef:
+                      name: config-info
+                      key: count
+
+                - name: USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: secret-info
+                      key: username
+
+              command: ["/bin/sh", "-c", "echo $COUNT; echo $USERNAME; sleep 5"]
+
+          restartPolicy: OnFailure

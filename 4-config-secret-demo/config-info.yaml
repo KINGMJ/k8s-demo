@@ -1,0 +1,18 @@
+# ---------------------------------------------------------------
+# configmap demo
+# ---------------------------------------------------------------
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-info
+  namespace: demo-ns
+
+data:
+  # 键值对格式
+  count: "10"
+  debug: "on"
+  path: "/etc/systemd"
+  greeting: | # 换行符
+    hello world
+  greeting2: |- # 不换行符
+    hello world2

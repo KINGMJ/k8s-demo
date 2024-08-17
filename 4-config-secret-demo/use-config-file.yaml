@@ -1,0 +1,32 @@
+# ----------------------------------------------------
+# 通过文件挂载的方式使用ConfigMap和Secret
+# ----------------------------------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: use-config-file-pod
+  namespace: demo-ns
+
+spec:
+  containers:
+    - name: busy
+      image: busybox
+      imagePullPolicy: IfNotPresent
+
+      command: ["/bin/sh", "-c", "cat /etc/config/config.json; sleep 3600"]
+      volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "250m"
+
+  volumes:
+    - name: config-volume
+      configMap:
+        name: config-file

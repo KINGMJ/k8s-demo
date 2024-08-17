@@ -39,7 +39,7 @@ spec:
   volumes:
     - name: nginx-vol
       hostPath:
-        path: /Users/jerrymei/MyCode/k8s-demo/1pod-demo/nginx
+        path: /Users/jerrymei/MyCode/k8s-demo/1-pod-demo/nginx
         type: DirectoryOrCreate
 
   restartPolicy: Never

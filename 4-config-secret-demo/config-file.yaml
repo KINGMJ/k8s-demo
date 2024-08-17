@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------
+# configmap 可以直接包含完整的文件内容。文件内容会被存储为字符串，并可以在 Pod 中挂载为文件。
+# ---------------------------------------------------------------
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-file
+  namespace: demo-ns
+
+data:
+  config.json: |
+    {
+      "name": "jerrymei",
+      "age": 18
+    }
+  config.yaml: |
+    name: jerrymei
+    age: 18
+  config.txt: |
+    my name is jerrymei, and my age is 18
