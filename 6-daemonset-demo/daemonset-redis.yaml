@@ -1,7 +1,11 @@
+# ---------------------------------------------------------------
+# daemonSet demo
+# ---------------------------------------------------------------
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: redis-ds
+  namespace: demo-ns
   labels:
     app: redis-ds
 
@@ -20,7 +24,9 @@ spec:
           image: redis:5-alpine
           ports:
             - containerPort: 6379
-      tolerations:
-        - key: node-role.kubernetes.io/control-plane
-          effect: NoSchedule
-          operator: Exists
+
+      # 容忍污点
+      # tolerations:
+      #   - key: node-role.kubernetes.io/control-plane
+      #     effect: NoSchedule
+      #     operator: Exists
