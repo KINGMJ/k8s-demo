@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ngx-dep
+  namespace: demo-ns
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ngx-dep
+
+  template:
+    metadata:
+      labels:
+        app: ngx-dep
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
+
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d
+              name: ngx-conf-vol
+
+      volumes:
+        - name: ngx-conf-vol
+          configMap:
+            name: ngx-conf
+
+      restartPolicy: Always
